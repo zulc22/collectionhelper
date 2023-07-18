@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Workshop Collection Helper
-// @version      0.1
+// @version      0.2
 // @description  Improve features for steam workshop collections
 // @author       zulc22
 // @match        https://steamcommunity.com/sharedfiles/managecollection*
@@ -68,15 +68,9 @@
         var items_length = items.length;
         var items_args = [];
         items.each((n,i)=>{
-            // get arguments from onclick to pass to add_child_collection
-            var args = i.onclick.toString().match(/Add.*\)/)[0].split(' ').slice(1,-1);
-            var args2 = [];
-            args.forEach(j => {
-                if (j.endsWith(',')) j=j.slice(0,-1)
-                j=j.slice(1,-1);
-                args2.push(j);
-            });
-            items_args.push(args2);
+            // the onclick action of these elements is "AddSpecifiedChildToCollection( 'choice_MySubscribedItems_<ID>', '<ID>' )"
+            // (the first argument is the same as the id of the div)
+            items_args.push([i.id, i.id.match(/\d{1,}/)[0]]);
         });
         var n = 0;
         var nsplit = 0;
@@ -100,7 +94,7 @@
     }
 
     function get_collection_id() {
-        return location.href.match(/id=\d*?&/)[0].slice(3,-1);
+        return location.href.match(/id=\d*/)[0].slice(3);
     }
 
     // patched off of AddSpecifiedChildToCollection
@@ -150,6 +144,10 @@
                             listElem.addClassName( "inCollection" );
                         }
                     }
+                    resolve();
+                }
+                else {
+                    console.log(`WARNING: 'Success' code ${result.success} given for ${childID}`);
                     resolve();
                 }
             });
