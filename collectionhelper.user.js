@@ -6,6 +6,8 @@
 // @match        https://steamcommunity.com/sharedfiles/managecollection*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=steamcommunity.com
 // @grant        none
+// @downloadURL  https://github.com/zulc22/collectionhelper/raw/main/collectionhelper.user.js
+// @updateURL    https://github.com/zulc22/collectionhelper/raw/main/collectionhelper.user.js
 // ==/UserScript==
 
 (function() {
